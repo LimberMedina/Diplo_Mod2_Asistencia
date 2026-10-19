@@ -102,7 +102,7 @@ export default function LoginPage() {
         <div className="relative flex flex-1 items-center justify-center px-6 pb-16 lg:px-12">
           <div className="w-full max-w-[400px] space-y-8">
             <div className="space-y-2">
-              <p className="text-lg font-semibold text-primary">Hola mundoOOOOO</p>
+              <p className="text-lg font-semibold text-primary">GRUPO GPT 6</p>
               <h2 className="text-2xl font-semibold tracking-tight">
                 Bienvenido de nuevo
               </h2>
