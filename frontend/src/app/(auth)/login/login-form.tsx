@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowRightIcon,
   EyeIcon,
@@ -8,25 +8,34 @@ import {
   IdentificationCardIcon,
   LockKeyIcon,
   WarningCircleIcon,
-} from "@phosphor-icons/react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+} from "@phosphor-icons/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@/components/ui/input-group"
-import { useIntro } from "@/components/brand/login-intro"
-import { Spinner } from "@/components/ui/spinner"
-import { MENSAJE_SIN_SERVIDOR, errorMessage, resilientFetch } from "@/lib/resilient-fetch"
-import type { User } from "@/lib/types"
+} from "@/components/ui/input-group";
+import { useIntro } from "@/components/brand/login-intro";
+import { Spinner } from "@/components/ui/spinner";
+import {
+  MENSAJE_SIN_SERVIDOR,
+  errorMessage,
+  resilientFetch,
+} from "@/lib/resilient-fetch";
+import type { User } from "@/lib/types";
 
 const schema = z.object({
   registration_code: z
@@ -35,55 +44,60 @@ const schema = z.object({
     .min(1, "Ingresa tu número de registro")
     .max(50, "El registro es demasiado largo"),
   password: z.string().min(1, "Ingresa tu contraseña"),
-})
-type Values = z.infer<typeof schema>
+});
+type Values = z.infer<typeof schema>;
 
 export function LoginForm() {
-  const router = useRouter()
-  const params = useSearchParams()
-  const intro = useIntro()
-  const [show, setShow] = useState(false)
+  const router = useRouter();
+  const params = useSearchParams();
+  const intro = useIntro();
+  const [show, setShow] = useState(false);
   const [error, setError] = useState<string | null>(
-    params.get("expired") ? "Tu sesión expiró. Vuelve a ingresar." : null
-  )
+    params.get("expired") ? "Tu sesión expiró. Vuelve a ingresar." : null,
+  );
   const form = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { registration_code: "", password: "" },
-  })
+  });
 
   async function onSubmit(values: Values) {
-    setError(null)
-    let res: Response
+    setError(null);
+    let res: Response;
     try {
       res = await resilientFetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
-      })
+      });
     } catch {
-      setError(MENSAJE_SIN_SERVIDOR)
-      return
+      setError(MENSAJE_SIN_SERVIDOR);
+      return;
     }
     if (!res.ok) {
-      setError(await errorMessage(res, "No se pudo iniciar sesión"))
-      return
+      setError(await errorMessage(res, "No se pudo iniciar sesión"));
+      return;
     }
-    const data = await res.json()
-    const user = data.user as User
+    const data = await res.json();
+    const user = data.user as User;
     if (user.must_change_password) {
-      router.replace("/cambiar-contrasena")
-      return
+      router.replace("/cambiar-contrasena");
+      return;
     }
-    const next = params.get("next")
-    const home = user.role === "admin" ? "/admin" : "/estudiante"
-    const allowed = next && next.startsWith(user.role === "admin" ? "/admin" : "/estudiante")
-    intro.play(allowed ? next : home)
+    const next = params.get("next");
+    const home = user.role === "admin" ? "/admin" : "/estudiante";
+    const allowed =
+      next && next.startsWith(user.role === "admin" ? "/admin" : "/estudiante");
+    intro.play(allowed ? next : home);
   }
 
-  const { errors, isSubmitting } = form.formState
+  const { errors, isSubmitting } = form.formState;
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="space-y-6">
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-6"
+    >
       {error && (
         <Alert variant="destructive">
           <WarningCircleIcon />
@@ -92,7 +106,9 @@ export function LoginForm() {
       )}
       <FieldGroup className="gap-5">
         <Field data-invalid={!!errors.registration_code}>
-          <FieldLabel htmlFor="registration_code">Número de registro</FieldLabel>
+          <FieldLabel htmlFor="registration_code">
+            Número de registro
+          </FieldLabel>
           <InputGroup className="h-11">
             <InputGroupAddon>
               <IdentificationCardIcon className="size-[18px]" />
@@ -136,14 +152,20 @@ export function LoginForm() {
           <FieldError errors={[errors.password]} />
         </Field>
       </FieldGroup>
-      <Button type="submit" size="lg" className="h-11 w-full text-sm" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        size="lg"
+        className="h-11 w-full text-sm"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? <Spinner /> : null}
         Ingresar
         {!isSubmitting && <ArrowRightIcon weight="bold" />}
       </Button>
       <p className="text-center text-xs text-muted-foreground">
-        Ingresa con tu número de registro institucional y la contraseña asignada.
+        Ingresa con tu número de registro institucional y la contraseña
+        asignada.
       </p>
     </form>
-  )
+  );
 }

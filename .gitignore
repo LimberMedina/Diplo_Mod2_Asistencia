@@ -20,18 +20,59 @@ Thumbs.db
 
 # OpenTofu (infra/opentofu): estado, planes y variables locales. Se versionan los
 # *.tf, terraform.tfvars.example y .terraform.lock.hcl.
-.terraform/
+
+# OpenTofu / Terraform
+**/.terraform/
+
+# States
 *.tfstate
 *.tfstate.*
+
+# Planes
 *.tfplan
-crash.log
-crash.*.log
+tfplan
+tfplan.*
+plan.out
+
+# Variables locales
 *.tfvars
 *.tfvars.json
+
+# Permitir archivos de ejemplo
+!*.tfvars.example
+!*.tfvars.json.example
+
+# Credenciales y secretos
+.env
+.env.*
+!.env.example
+
+*.pem
+*.key
+
+# Errores
+crash.log
+crash.*.log
+
+# Overrides
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+
+# Configuración local CLI
+.terraformrc
+terraform.rc
+
+# Dependencias Python
+.venv/
+__pycache__/
+*.pyc
+
+# Dependencias Next.js
+node_modules/
+.next/
+
 
 # Secretos, claves privadas y respaldos de base de datos
 *.env

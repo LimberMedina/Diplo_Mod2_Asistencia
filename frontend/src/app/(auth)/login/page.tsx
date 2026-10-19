@@ -3,15 +3,15 @@ import {
   FileXlsIcon,
   FingerprintSimpleIcon,
   ShieldCheckeredIcon,
-} from "@phosphor-icons/react/ssr"
-import type { Metadata } from "next"
-import { Suspense } from "react"
+} from "@phosphor-icons/react/ssr";
+import type { Metadata } from "next";
+import { Suspense } from "react";
 
-import { LoginForm } from "@/app/(auth)/login/login-form"
-import { Logo } from "@/components/brand/logo"
-import { Skeleton } from "@/components/ui/skeleton"
+import { LoginForm } from "@/app/(auth)/login/login-form";
+import { Logo } from "@/components/brand/logo";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export const metadata: Metadata = { title: "Iniciar sesión" }
+export const metadata: Metadata = { title: "Iniciar sesión" };
 
 const FEATURES = [
   {
@@ -34,7 +34,7 @@ const FEATURES = [
     title: "Control por roles",
     text: "Administradores con edición total; estudiantes, solo su día.",
   },
-]
+];
 
 export default function LoginPage() {
   return (
@@ -61,8 +61,8 @@ export default function LoginPage() {
                 </span>
               </h1>
               <p className="max-w-md text-[15px] leading-relaxed text-white/60">
-                Centraliza horarios, estudiantes y registros en una sola plataforma con reglas de
-                negocio claras y trazabilidad completa.
+                Centraliza horarios, estudiantes y registros en una sola
+                plataforma con reglas de negocio claras y trazabilidad completa.
               </p>
             </div>
 
@@ -70,11 +70,16 @@ export default function LoginPage() {
               {FEATURES.map((f) => (
                 <li key={f.title} className="flex gap-3">
                   <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5">
-                    <f.icon weight="duotone" className="size-5 text-[oklch(0.75_0.14_250)]" />
+                    <f.icon
+                      weight="duotone"
+                      className="size-5 text-[oklch(0.75_0.14_250)]"
+                    />
                   </div>
                   <div className="space-y-1">
                     <div className="text-sm font-medium">{f.title}</div>
-                    <p className="text-[13px] leading-snug text-white/50">{f.text}</p>
+                    <p className="text-[13px] leading-snug text-white/50">
+                      {f.text}
+                    </p>
                   </div>
                 </li>
               ))}
@@ -97,9 +102,12 @@ export default function LoginPage() {
         <div className="relative flex flex-1 items-center justify-center px-6 pb-16 lg:px-12">
           <div className="w-full max-w-[400px] space-y-8">
             <div className="space-y-2">
-              <h2 className="text-2xl font-semibold tracking-tight">Bienvenido de nuevo</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Bienvenido de nuevo
+              </h2>
               <p className="text-sm text-muted-foreground">
-                Ingresa con tu número de registro para marcar o gestionar la asistencia.
+                Ingresa con tu número de registro para marcar o gestionar la
+                asistencia.
               </p>
             </div>
             <Suspense fallback={<Skeleton className="h-[280px] w-full" />}>
@@ -109,5 +117,5 @@ export default function LoginPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
