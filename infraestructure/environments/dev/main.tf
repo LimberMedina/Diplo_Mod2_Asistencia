@@ -116,6 +116,9 @@ module "frontend" {
   name = "${local.name_prefix}-frontend"
   role = "frontend"
 
+
+  iam_instance_profile = aws_iam_instance_profile.ssm_ec2.name
+
   ami_id        = local.selected_ami
   instance_type = var.frontend_instance_type
 
@@ -150,6 +153,8 @@ module "backend" {
 
   name = "${local.name_prefix}-backend"
   role = "backend"
+
+  iam_instance_profile = aws_iam_instance_profile.ssm_ec2.name
 
   ami_id        = local.selected_ami
   instance_type = var.backend_instance_type

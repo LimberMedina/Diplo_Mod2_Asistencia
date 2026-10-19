@@ -143,3 +143,14 @@ variable "app_domain" {
   type        = string
   default     = null
 }
+
+
+variable "github_owner_id" {
+  description = "ID numerico del propietario de GitHub."
+  type        = string
+}
+
+variable "github_repo_id" {
+  description = "ID numerico del repositorio GitHub."
+  type        = string
+}

@@ -11,9 +11,11 @@ terraform {
 resource "aws_instance" "this" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  
+
   user_data = var.user_data
 
+
+  iam_instance_profile = var.iam_instance_profile
 
   subnet_id  = var.subnet_id
   private_ip = var.private_ip

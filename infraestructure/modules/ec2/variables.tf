@@ -62,3 +62,10 @@ variable "user_data" {
   type        = string
   default     = null
 }
+
+
+variable "iam_instance_profile" {
+  description = "Nombre del perfil IAM asociado a la instancia EC2."
+  type        = string
+  default     = null
+}
